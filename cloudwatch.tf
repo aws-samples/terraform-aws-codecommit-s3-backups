@@ -8,7 +8,7 @@ resource "aws_cloudwatch_log_group" "this" {
 }
 
 resource "aws_cloudwatch_event_rule" "this" {
-  name          = "codecommit-backups"
+  name          = var.name
   description   = "This rule is used to trigger CodeCommit backups to S3"
   event_pattern = <<EOF
 {
