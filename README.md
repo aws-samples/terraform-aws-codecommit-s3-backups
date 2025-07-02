@@ -9,7 +9,7 @@ Backup AWS CodeCommit repositories to Amazon S3.
 ```hcl
 module "codecommit-s3-backups" {
   source  = "aws-samples/codecommit-s3-backups/aws"
-  version = "2.2.2"
+  version = "2.2.x"
   name    = "codecommit-s3-backup" 
 }
 ```
