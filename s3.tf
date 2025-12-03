@@ -55,7 +55,9 @@ data "aws_iam_policy_document" "this" {
 }
 
 resource "aws_s3_bucket_logging" "this" {
-  count         = var.s3_logging_bucket == null ? 0 : 1
+  depends_on = [aws_s3_bucket.this]
+  count      = var.s3_logging_bucket == null ? 0 : 1
+
   bucket        = aws_s3_bucket.this.id
   target_bucket = var.s3_logging_bucket
   target_prefix = "${aws_s3_bucket.this.id}/"
