@@ -6,11 +6,13 @@ variable "name" {
 }
 
 variable "s3_logging_bucket" {
-  type    = string
-  default = null
+  type        = string
+  description = "S3 access logging bucket id"
+  default     = null
 }
 
 variable "kms_key" {
-  type    = string
-  default = null
+  type        = string
+  description = "AWS KMS key arn"
+  default     = null
 }
