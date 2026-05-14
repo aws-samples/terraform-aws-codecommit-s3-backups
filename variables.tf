@@ -5,9 +5,10 @@ variable "name" {
   type = string
 }
 
-variable "s3_logging_bucket" {
-  type    = string
-  default = null
+variable "access_logging_bucket" {
+  description = "s3 server access logging bucket arn"
+  type        = string
+  default     = null
 }
 
 variable "kms_key" {
