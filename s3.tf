@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 resource "aws_s3_bucket" "this" {
-  bucket        = "${var.name}-${data.aws_caller_identity.current.account_id}"
-  force_destroy = true
+  bucket = "${var.name}-${data.aws_caller_identity.current.account_id}"
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
