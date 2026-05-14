@@ -89,11 +89,11 @@ data "aws_iam_policy_document" "codebuild" {
   statement {
     effect = "Allow"
     actions = [
-      "codeCommit:GitPull"
+      "codecommit:GitPull"
     ]
 
     resources = [
-      "*"
+      "arn:aws:codecommit:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
     ]
   }
 
@@ -111,16 +111,19 @@ data "aws_iam_policy_document" "codebuild" {
     ]
   }
 
-  statement {
-    effect = "Allow"
-    actions = [
-      "kms:GenerateDataKey*",
-      "kms:Decrypt"
-    ]
+  dynamic "statement" {
+    for_each = var.kms_key != null ? [var.kms_key] : []
+    content {
+      effect = "Allow"
+      actions = [
+        "kms:GenerateDataKey*",
+        "kms:Decrypt"
+      ]
 
-    resources = [
-      "*"
-    ]
+      resources = [
+        statement.value
+      ]
+    }
   }
 
 }
