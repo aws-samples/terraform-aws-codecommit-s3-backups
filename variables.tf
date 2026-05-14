@@ -13,6 +13,12 @@ variable "kms_key" {
   default     = null
 }
 
+variable "log_retention" {
+  description = "CloudWatch log group retention, in days"
+  type        = number
+  default     = 30
+}
+
 variable "name" {
   description = "Name used for resource naming (CodeBuild project, IAM roles, S3 bucket)"
   type        = string
