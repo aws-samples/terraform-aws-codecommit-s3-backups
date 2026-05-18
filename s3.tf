@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 resource "aws_s3_bucket" "this" {
-  bucket        = "${var.name}-${data.aws_caller_identity.current.account_id}"
-  force_destroy = true
+  bucket = "${var.name}-${data.aws_caller_identity.current.account_id}"
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
@@ -20,8 +19,15 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   rule {
     apply_server_side_encryption_by_default {
       kms_master_key_id = try(var.kms_key, null)
-      sse_algorithm     = can(var.kms_key) ? "aws:kms" : "AES256"
+      sse_algorithm     = var.kms_key == null ? "AES256" : "aws:kms"
     }
+  }
+}
+
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -56,10 +62,10 @@ data "aws_iam_policy_document" "this" {
 
 resource "aws_s3_bucket_logging" "this" {
   depends_on = [aws_s3_bucket.this]
-  count      = var.s3_logging_bucket == null ? 0 : 1
+  count      = var.access_logging_bucket == null ? 0 : 1
 
   bucket        = aws_s3_bucket.this.id
-  target_bucket = var.s3_logging_bucket
+  target_bucket = var.access_logging_bucket
   target_prefix = "${aws_s3_bucket.this.id}/"
 }
 
