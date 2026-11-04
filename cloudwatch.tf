@@ -124,16 +124,5 @@ data "aws_iam_policy_document" "cloudwatch" {
       aws_codebuild_project.this.arn
     ]
   }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "batch:SubmitJob"
-    ]
-
-    resources = [
-      "*"
-    ]
-  }
 }
 
